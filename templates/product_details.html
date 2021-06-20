@@ -1,0 +1,255 @@
+{% extends 'head.html'%}
+{% load static %}
+{% block content %}
+	<div class="span9">
+    <ul class="breadcrumb">
+    <li><a href="{% url 'home' %}">Home</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'home' %}">Products</a> <span class="divider">/</span></li>
+    <li class="active">product Details</li>
+    </ul>	
+	<div class="row">	  
+			<div id="gallery" class="span3">
+            <a href="{{product.image_main_product.url}}" title="Fujifilm FinePix S2950 Digital Camera">
+				<img src="{{product.image_main_product.url}}" style="width:100%" alt="Fujifilm FinePix S2950 Digital Camera"/>
+            </a>
+			<div id="differentview" class="moreOptopm carousel slide">
+                <div class="carousel-inner">
+                  <div class="item active">
+				  {% for image in images %}
+                   <a href="{{image.path_image.url}}"> <img style="width:29%" src="{{image.path_image.url}}" alt=""/></a>
+				   {% endfor %}
+                  </div>
+                  <div class="item">
+                   <a href="{% static 'themes/images/products/large/f3.jpg'%}" > <img style="width:29%" src="{% static 'themes/images/products/large/f3.jpg'%}" alt=""/></a>
+                   <a href="{% static 'themes/images/products/large/f1.jpg'%}"> <img style="width:29%" src="{% static 'themes/images/products/large/f1.jpg'%}" alt=""/></a>
+                   <a href="{% static 'themes/images/products/large/f2.jpg'%}"> <img style="width:29%" src="{% static 'themes/images/products/large/f2.jpg'%}" alt=""/></a>
+                  </div>
+                </div>
+              <!--  
+			  <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+              <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a> 
+			  -->
+              </div>
+			  
+			 <div class="btn-toolbar">
+			  <div class="btn-group">
+				<span class="btn"><i class="icon-envelope"></i></span>
+				<span class="btn" ><i class="icon-print"></i></span>
+				<span class="btn" ><i class="icon-zoom-in"></i></span>
+				<span class="btn" ><i class="icon-star"></i></span>
+				<span class="btn" ><i class=" icon-thumbs-up"></i></span>
+				<span class="btn" ><i class="icon-thumbs-down"></i></span>
+			  </div>
+			</div>
+			</div>
+			<div class="span6">
+				<h3>{{product.name_product}}  </h3>
+				<small>- (14MP, 18x Optical Zoom) 3-inch LCD</small>
+				<hr class="soft"/>
+				<form class="form-horizontal qtyFrm" method="GET" action="/cart/add_to_cart/{{product.id}}">
+				  <div class="control-group">
+					<label class="control-label"><span>đ{{product.price}}</span></label>
+					
+					<div class="controls">
+					<input type="number" class="span1" placeholder="1" value="1" name="amount"/>
+
+					  <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i></button>
+					</div>
+				  </div>
+				
+				
+				<hr class="soft"/>
+				<h4>100 items in stock</h4>
+				<div class="form-horizontal qtyFrm pull-right">
+					<div class="control-group">
+						<label class="control-label"><span>Color</span></label>
+						<div class="controls">
+						  <select class="span2" name="color">
+							  <option value="black">Black</option>
+							  <option value="red">Red</option>
+							  <option value="blue">Blue</option>
+							  <option value="brown">Brown</option>
+							</select>
+						</div>
+					  </div>
+				</div>
+
+				<div class="form-horizontal qtyFrm pull-right">
+					<div class="control-group">
+						<label class="control-label"><span>Discount</span></label>
+						<div class="controls">
+						  <select class="span2" name="discount_id">
+							  {% for discount in discounts %}
+							  <option value="{{discount.id}}">{{discount.name}}</option>
+							  {% endfor %}
+							</select>
+						</div>
+					  </div>
+				</div>
+				
+				  
+				</form>
+				<hr class="soft clr"/>
+				<p>
+				{{product.describe}}
+				</p>
+				<a class="btn btn-small pull-right" href="#detail">More Details</a>
+				<br class="clr"/>
+			<a href="#" name="detail"></a>
+			<hr class="soft"/>
+			</div>
+			
+			<div class="span9">
+            <ul id="productDetail" class="nav nav-tabs">
+              <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
+              <li><a href="#profile" data-toggle="tab">Related Products</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane fade active in" id="home">
+			  <h4>Product Information</h4>
+                <table class="table table-bordered">
+				<tbody>
+				<tr class="techSpecRow"><th colspan="2">Product Details</th></tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Brand: </td><td class="techSpecTD2">Fujifilm</td></tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Model:</td><td class="techSpecTD2">FinePix S2950HD</td></tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Released on:</td><td class="techSpecTD2"> 2011-01-28</td></tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Dimensions:</td><td class="techSpecTD2"> 5.50" h x 5.50" w x 2.00" l, .75 pounds</td></tr>
+				<tr class="techSpecRow"><td class="techSpecTD1">Display size:</td><td class="techSpecTD2">3</td></tr>
+				</tbody>
+				</table>
+				<h5>Đánh giá sản phẩm</h5>
+				<form method="GET" action="/cart/product/rating/{{product.id}}">
+				<div id="rating">
+					<input type="radio" id="star5" name="rating" value="five" checked/>
+					<label class = "full" for="star5" title="Awesome - 5 stars"></label>
+				
+					<input type="radio" id="star4" name="rating" value="fore" />
+					<label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+				
+					<input type="radio" id="star3" name="rating" value="three" />
+					<label class = "full" for="star3" title="Meh - 3 stars"></label>
+				
+					<input type="radio" id="star2" name="rating" value="two" />
+					<label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+				
+					<input type="radio" id="star1" name="rating" value="one" />
+					<label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+				</div>
+				{% if amount %}
+				<button disabled class="btn btn-danger">Đã đánh giá</button>
+				{% else %}
+				<button type="submit" class="btn btn-danger">Đánh giá</button>
+				{% endif %}
+			
+				
+				</form>
+				<br/>
+				<div style="display:flex">
+				<h5 style="margin-right:40px">5 Sao({{love.five}})</h5>
+				<h5 style="margin-right:40px">4 Sao({{love.fore}})</h5>
+				<h5 style="margin-right:40px">3 Sao({{love.three}})</h5>
+				<h5 style="margin-right:40px">2 Sao({{love.two}})</h5>
+				<h5 style="margin-right:40px">1 Sao({{love.one}})</h5>
+				</div>
+				<h4>Comment</h4>
+
+					{% for comment in comments %}
+					{{comment.customer.full_name.first_name}}
+					<textarea disabled class="form-control"  style="width: 850px;"  id="comment" name="comment">{{comment.content}}</textarea>
+					
+					{% endfor %}
+				
+				
+				
+
+
+				
+					<form action="/cart/comment/{{product.id}}">
+					  
+						<textarea class="form-control" rows="5" style="width: 850px;"  id="comment" name="comment"></textarea>
+					  <br/>
+					  <button type="submit" class="btn btn-primary">Bình luận</button>
+					</form>
+				  
+
+
+				
+					
+				  
+
+
+
+				
+				
+              </div>
+		<div class="tab-pane fade" id="profile">
+		<div id="myTab" class="pull-right">
+		 <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
+		 <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+		</div>
+		<br class="clr"/>
+		<hr class="soft"/>
+		<div class="tab-content">
+			<div class="tab-pane" id="listView">
+				{% for product in products %}
+				<div class="row">	  
+					<div class="span2">
+						<img class="chage" src="{{product.image_main_product.url}}" alt=""/>
+					</div>
+					<div class="span4">
+						<h3>New | Available</h3>				
+						<hr class="soft"/>
+						<h5>{{product.name_product}} </h5>
+						<p>
+						Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with the latest fashion tendencies - 
+						that is why our goods are so popular..
+						</p>
+						<a class="btn btn-small pull-right" href="product_details.html">View Details</a>
+						<br class="clr"/>
+					</div>
+					<div class="span3 alignR">
+					<form class="form-horizontal qtyFrm">
+					<h3> đ{{product.price}}</h3>
+					<label class="checkbox">
+						<input type="checkbox">  Adds product to compair
+					</label><br/>
+					<div class="btn-group">
+					  <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
+					  <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+					 </div>
+						</form>
+					</div>
+			</div>
+			<hr class="soft"/>
+
+			{% endfor %}
+
+		</div>
+			<div class="tab-pane active" id="blockView">
+				<ul class="thumbnails">
+					{% for product in products %}
+					<li class="span3">
+					  <div class="thumbnail">
+						<a href="product_details.html"><img class="chage" src="{{product.image_main_product.url}}" alt=""/></a>
+						<div class="caption">
+						  <h5>{{product.name_product}}</h5>
+						  <p> 
+							Lorem Ipsum is simply dummy text. 
+						  </p>
+						  <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">đ{{product.price}}</a></h4>
+						</div>
+					  </div>
+					</li>
+					{% endfor %}
+				  </ul>
+			<hr class="soft"/>
+			</div>
+		</div>
+				<br class="clr">
+					 </div>
+		</div>
+          </div>
+
+	</div>
+</div>
+{% endblock %}

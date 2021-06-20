@@ -1,0 +1,79 @@
+{% extends 'head.html'%}
+{% load static %}
+{% block content %}
+<form method="GET" action="/cart/payment">
+	<div class="span9">
+    <ul class="breadcrumb">
+		<li><a href="{% url 'home' %}">Home</a> <span class="divider">/</span></li>
+		<li class="active"></li>
+    </ul>
+	<h3> </small>Xác Nhận Thanh Toán<a href="{% url 'home' %}" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>	
+	<hr class="soft"/>
+	
+	<table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+				  <th>Discount</th>
+				  <th>Price</th>
+                  <th>Total</th>
+				  
+				</tr>
+              </thead>
+              <tbody>
+				  {% for item in items %}
+                <tr>
+                  <td> <img width="60" src="{{item.product.image_main_product.url}}" alt=""/></td>
+                  <td>{{item.product.name_product}}<br/>Color : {{item.color}}, Material : metal</td>
+				  <td>
+					{{item.amount}}
+				  </td>
+                  <td>đ{{item.discount}}</td>
+                  <td>đ{{item.total}}</td>
+				  <td>đ{{item.total_price}}</td>
+				  <td><input type="hidden" name="item_id" value="{{item.id}}"  /></td>
+				 
+                </tr>
+				{% endfor %}
+				 <tr>
+                  <td colspan="6" style="text-align:right"><strong>TOTAL  =</strong></td>
+                  <td class="label label-important" style="display:block"> <strong> đ{{info.total}} </strong></td>
+                </tr>
+				</tbody>
+            </table>
+			<input type="hidden" name="payment" value="{{info.payment.id}}">
+			<input type="hidden" name="ship" value="{{info.ship.id}}" >
+			<input type="hidden" name="address" value="{{info.receive_address.id}}" >
+			
+		
+            <table class="table table-bordered">
+			<tbody>
+				 <tr>
+                  <td> 
+				
+				<div class="control-group">
+				<label class="control-label"><strong> Địa chỉ nhận hàng : {{info.receive_address.city}} - {{info.receive_address.district}} - {{info.receive_address.villate}} - {{info.receive_address.number_house}}</strong> </label>
+				<label class="control-label"><strong> Số điện thoại nhận hàng : {{info.receive_address.number_phone}} </strong> </label>
+				<label class="control-label"><strong> Ngày đặt hàng : {{info.orderDate}} </strong> </label>
+				<label class="control-label"><strong> Hình thức thanh toán : {{info.payment.name}}</strong> </label>
+				<label class="control-label"><strong>Hình thức ship hàng: {{info.ship.name}}</strong> </label>
+                <label class="control-label"><strong>tiền ship hàng: đ{{info.ship.price}}</strong> </label>
+                <label class="control-label"><strong>Bạn đã đạt hàng thành công , bạn vui lòng để ý điện thoại khi nhân viên giao hàng gọi đến</strong> </label>
+				</div>
+				
+				</td>
+                </tr>
+				
+			</tbody>
+			</table>
+
+			<button type="submit" class="btn btn-large pull-left">Xác Nhận</button>
+			
+	</form>
+	
+	
+</div>
+
+{% endblock %}

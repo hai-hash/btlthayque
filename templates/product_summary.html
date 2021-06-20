@@ -1,0 +1,160 @@
+{% extends 'head.html'%}
+{% load static %}
+{% block content %}
+	<div class="span9">
+    <ul class="breadcrumb">
+		<li><a href="{% url 'home' %}">Home</a> <span class="divider">/</span></li>
+		<li class="active"> SHOPPING CART</li>
+    </ul>
+	<h3>  SHOPPING CART [ <small>{{amount}} Item(s) </small>]<a href="{% url 'home' %}" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>	
+	<hr class="soft"/>
+	<form method="GET" action="/cart/payment_confirm">
+	<table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Description</th>
+                  <th>Quantity/Update</th>
+				  <th>Discount</th>
+				  <th>Price</th>
+                  <th>Total</th>
+				  <th>Select</th>
+				</tr>
+              </thead>
+              <tbody>
+				  {% for item in items %}
+                <tr>
+                  <td> <img width="60" src="{{item.product.image_main_product.url}}" alt=""/></td>
+                  <td>{{item.product.name_product}}<br/>Color : {{item.color}}, Material : metal</td>
+				  <td>
+					<div class="input-append"><input value="{{item.amount}}" class="span1" style="max-width:34px" placeholder="1" id="appendedInputButtons" size="16" type="text">
+						<button class="btn" type="button"><i class="icon-minus"></i></button>
+						<button class="btn" type="button"><i class="icon-plus"></i></button>
+						<a href="/cart/delete/{{item.id}}"><button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button></div></a>
+						
+				  </td>
+                  <td>{{item.discount}}</td>
+                  <td>{{item.total}}</td>
+				  <td>{{item.total_price}}</td>
+				  <td><input type="checkbox" name="item_id" value="{{item.id}}"  /></td>
+                </tr>
+				{% endfor %}
+				 <tr>
+                  <td colspan="6" style="text-align:right"><strong>TOTAL  =</strong></td>
+                  <td class="label label-important" style="display:block"> <strong> {{total}} </strong></td>
+                </tr>
+				</tbody>
+            </table>
+		
+		
+            <table class="table table-bordered">
+			<tbody>
+				 <tr>
+                  <td> 
+				
+				<div class="control-group">
+				<label class="control-label"><strong> Địa chỉ nhận hàng : </strong> </label>
+				<div class="controls">
+				<select class="span2" name="address">
+					{% for addres in address %}
+					<option value="{{addres.id}}">{{addres.city}}-{{addres.district}}-{{addres.villate}}-{{addres.number_house}}</option>
+					{% endfor %}
+				</select>
+				</div>
+
+				
+				
+				<label class="control-label"><strong> Hình thức thanh toán : </strong> </label>
+				<div class="controls">
+					<select class="span2" name="payment">
+					{% for payment in payments %}
+					<option value="{{payment.id}}">{{payment.name}}</option>
+					{% endfor %}
+					  </select>
+				</div>
+
+				<label class="control-label"><strong>Hình thức ship hàng: </strong> </label>
+				<div class="controls">
+				<select class="span2" name="ship">
+					{% for ship in ships %}
+					<option value="{{ship.id}}">{{ship.name}}</option>
+					{% endfor %}
+				</select>
+				</div>
+				
+				</td>
+                </tr>
+				
+			</tbody>
+			</table>
+			<button type="submit" class="btn btn-large ">Đặt hàng</button>
+</form>
+
+<h3>Lịch sử đặt hàng</h3>
+
+<h5>Đơn Hàng đã được xác nhận</h5>
+<table class="table table-bordered">
+	<thead>
+	  <tr>
+		<th>Đơn hàng số</th>
+		<th>Ngày Đặt</th>
+		<th>Ngày nhận hàng dự kiến</th>
+		<th>Số loại mặt hàng</th>
+		<th>Phí dịch vụ ship</th>
+		<th>Total</th>
+		<th>Tình trạng đơn hàng</th>
+		
+	  </tr>
+	</thead>
+	<tbody>
+		{% for order in list_order %}
+	  <tr>
+		<td class="poin">#{{order.order.id}}
+		<div class="hover1">
+		<table>
+		<thead>
+		<th>Sản phẩm</th>
+		<th>ảnh</th>
+		<th>Gía sản phẩm</th>
+		<th>Số lượng</th>
+		<th>Màu sắc</th>
+		<th>Giam giá</th>
+		<th>Tổng tiền</th>
+		</thead>
+		<tbody>
+		{% for item in order.list_item %}
+		<tr>
+		<td>{{item.product.name_product}}</td>
+		<td><img src="{{item.product.image_main_product.url}}" width="50" height="50"/></td>
+		<td>{{item.product.price}}</td>
+		<td>{{item.amount}}</td>
+		<td>{{item.color}}</td>
+		<td>{{item.discount}}</td>
+		<td>{{item.total_price}}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+		</table>
+	  </div>
+		</td>
+		<td>{{order.order.orderDate}}</td>
+		<td>{{order.order.receiveDate}}</td>
+		<td>
+		 {{order.order.amount}}
+		 </td>
+		 <td>{{order.order.ship.price}}</td>
+		<td>{{order.order.total}}</td>
+		<td>{{order.order.statusstr}}</td>
+	  </tr>
+	  
+	  {% endfor %}
+	   
+	</tbody>
+  
+
+</table>
+	<a href="{% url 'home' %}" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+	
+</div>
+
+{% endblock %}

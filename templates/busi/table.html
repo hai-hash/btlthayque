@@ -1,0 +1,492 @@
+{% extends 'busi/index.html' %}
+{% load static %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Simple Tables</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Simple Tables</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Mặt hàng đã bán</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Sản phẩm</th>
+                      <th>Số lượng</th>
+                      <th>biểu đồ</th>
+                      <th style="width: 40px">Tỷ lệ/Tổng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1.</td>
+                      <td>Sách</td>
+                      <td>{{amount_book}}</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-danger" style="width: {{b}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-danger">{{b}}%</span></td>
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>Quần áo</td>
+                      <td>{{amount_clothes}}</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-warning" style="width: {{c}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-warning">{{c}}%</span></td>
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Đồng điện tử</td>
+                      <td>{{amount_elec}}</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar bg-primary" style="width: {{e}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-primary">{{e}}%</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+        
+        <!-- /.row -->
+        
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">sách</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                      
+                      <th>ảnh</th>
+                      <th>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                        <div style="height:50px;overflow:auto">
+                        {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                          </div>
+                          <br/>
+                         
+                           <li>Thêm khuyến mãi</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form method="GET" action="/business/discount/add">
+                          <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input type="text" class="form-control" id="usr" name="name">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Code:</label>
+                            <input type="text" class="form-control" id="pwd" name="code">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Value:</label>
+                            <input type="text" class="form-control" id="pwd" name="value">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Phan Trăm:</label>
+                            <input type="text" class="form-control" id="pwd" name="phantram">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in books1 %}
+                    <tr>
+                      <td>{{book.product.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ẢNH
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        {% for image in book.images%}
+                          <li><a href="#"><img src="{{image.path_image.url}}" width="50px" height="50px"></a>
+                          <a href="/business/delete/image/{{image.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                          <li>
+                          <form method="POST" action="/business/upload/image" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <input type="file" name = "image" value=""/>
+                          <input type="submit" value="upload"/>
+                          </form>
+                          </li>
+                        </ul>
+                      </div>
+                      </td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        
+                        {% for discount in book.discounts%}
+                          <li>{{discount.discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+      
+                          <li>Thêm khuyến mãi</li>
+                          {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/add/discount/{{discount.id}}/{{book.product.id}}">thêm</a>
+                          </li>
+                          
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Quần áo</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                      
+                      <th>ảnh</th>
+                      <th>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                        <div style="height:50px;overflow:auto">
+                        {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                          </div>
+                          <br/>
+                         
+                           <li>Thêm khuyến mãi</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form>
+                          <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input type="text" class="form-control" id="usr" name="name">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Code:</label>
+                            <input type="password" class="form-control" id="pwd" name="code">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Value:</label>
+                            <input type="password" class="form-control" id="pwd" name="value">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Phan Trăm:</label>
+                            <input type="password" class="form-control" id="pwd" name="phantram">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in clothes %}
+                    <tr>
+                      <td>{{book.product.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ẢNH
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        {% for image in book.images%}
+                          <li><a href="#"><img src="{{image.path_image.url}}" width="50px" height="50px"></a>
+                          <a href="/business/delete/image/{{image.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                          <li>
+                          <form method="POST" action="/business/upload/image" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <input type="file" name = "image" value=""/>
+                          <input type="submit" value="upload"/>
+                          </form>
+                          </li>
+                        </ul>
+                      </div>
+                      </td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        {% for discount in book.discounts%}
+                          <li>{{discount.discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                           <li>Thêm khuyến mãi</li>
+                          {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/add/discount/{{discount.id}}/{{book.product.id}}">thêm</a>
+                          </li>
+                          
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Đồ điện tử</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                      
+                      <th>ảnh</th>
+                      <th>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                        <div style="height:50px;overflow:auto">
+                        {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                          </div>
+                          <br/>
+                         
+                           <li>Thêm khuyến mãi</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form>
+                          <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input type="text" class="form-control" id="usr" name="name">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Code:</label>
+                            <input type="password" class="form-control" id="pwd" name="code">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Value:</label>
+                            <input type="password" class="form-control" id="pwd" name="value">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Phan Trăm:</label>
+                            <input type="password" class="form-control" id="pwd" name="phantram">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in electronics %}
+                    <tr>
+                      <td>{{book.product.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">ẢNH
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        {% for image in book.images%}
+                          <li><a href="{{image.path_image.url}}"><img src="{{image.path_image.url}}" width="50px" height="50px"></a>
+                          <a href="/business/delete/image/{{image.id}}">xóa</a>
+                          </li>
+
+                          {% endfor %}
+                          <li>
+                          <form method="POST" action="/business/upload/image" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <input type="file" name = "image" value=""/>
+                          <input type="submit" value="upload"/>
+                          </form>
+                          </li>
+                        </ul>
+                      </div>
+                      </td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Khuyến mãi
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        {% for discount in book.discounts%}
+                          <li>{{discount.discount.name}}
+                          <a href="/business/delete/discount/{{discount.id}}">xóa</a>
+                          </li>
+                          {% endfor %}
+                           <li>Thêm khuyến mãi</li>
+                          {% for discount in discounts%}
+                          <li>{{discount.name}}
+                          <a href="/business/add/discount/{{discount.id}}/{{book.product.id}}">thêm</a>
+                          </li>
+                          
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+{% endblock %}

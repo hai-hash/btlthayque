@@ -1,0 +1,449 @@
+{% extends 'sale/index.html' %}
+{% load static %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Simple Tables</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Simple Tables</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Mặt hàng đã bán</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Sản phẩm</th>
+                      <th>Số lượng</th>
+                      <th>biểu đồ</th>
+                      <th style="width: 40px">Tỷ lệ/Tổng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1.</td>
+                      <td>Sách</td>
+                      <td>{{amount_book}}</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-danger" style="width: {{b}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-danger">{{b}}%</span></td>
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>Quần áo</td>
+                      <td>{{amount_clothes}}</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar bg-warning" style="width: {{c}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-warning">{{c}}%</span></td>
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Đồng điện tử</td>
+                      <td>{{amount_elec}}</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar bg-primary" style="width: {{e}}%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-primary">{{e}}%</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+        
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Responsive Hover Table</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Đơn Hàng số</th>
+                      <th>amount</th>
+                      <th>order Date</th>
+                      <th>Toatl Price</th>
+                      <th>Status</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for info in orders %}
+                    <tr>
+                      <td>#{{info.id}}</td>
+                      <td>{{info.amount}}</td>
+                      <td>{{info.orderDate}}</td>
+                      <td>{{info.total}}</td>
+                      <td>đang chờ hàng xuất kho</td>
+                      <td><a href="/store/confirm/{{info.id}}"><button class="btn btn-primary">xác nhận</button></a></td>
+                      
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">lịch sử nhập hàng </h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Đơn Hàng số</th>
+                      <th>Sản phẩm</th>
+                      <th>amount</th>
+                      <th>Nhà cung cấp</th>
+                      <th>Import Date</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for bill in bills %}
+                    <tr>
+                      <td>#{{bill.id}}</td>
+                      <td>{{bill.product.name_product}}</td>
+                      <td>{{bill.amount}}</td>
+                      <td>{{bill.supplier.name}}</td>
+                      <td>{{bill.import_date}}</td>
+                     
+                      
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Thống kê sách</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                      
+                      <th>ảnh</th>
+                      <th>số lượng</th>
+                      
+                      <th>giá nhập</th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in books %}
+                    <tr>
+                      <td>{{book.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td><img src="{{book.product.image_main_product.url}}" width="70px" height="70px"></td>
+                      <td>{{book.amount}}</td>
+                      <td>{{book.import_price}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Thêm hàng
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                           <li>Nhập thêm hàng</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form method="GET" action="/store/add/product">
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <div class="form-group">
+                            <label for="usr">Số lượng:</label>
+                            <input type="text" class="form-control" id="usr" name="amount">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Nhà cung cấp</label>
+                            <select name="supplier_id">
+                            {% for supplier in suppliers%}
+                            <option value={{supplier.id}}>{{supplier.name}}</option>
+                            {% endfor %}
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Thống kê quần áo</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                     
+                      <th>ảnh</th>
+                       <th>số lượng</th>
+                      
+                      <th>giá nhập</th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in clothes %}
+                    <tr>
+                      <td>{{book.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td><img src="{{book.product.image_main_product.url}}" width="70px" height="70px"></td>
+                      <td>{{book.amount}}</td>
+                      <td>{{book.import_price}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Thêm hàng
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                           <li>Nhập thêm hàng</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form method="GET" action="/store/add/product">
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <div class="form-group">
+                            <label for="usr">Số lượng:</label>
+                            <input type="text" class="form-control" id="usr" name="amount">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Nhà cung cấp</label>
+                            <select name="supplier_id">
+                            {% for supplier in suppliers%}
+                            <option value={{supplier.id}}>{{supplier.name}}</option>
+                            {% endfor %}
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Thống kê đồ điện tử</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Sản phẩm</th>
+                     
+                      <th>ảnh</th>
+                       <th>số lượng</th>
+                      
+                      <th>giá nhập</th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for book in electronic %}
+                    <tr>
+                      <td>{{book.id}}</td>
+                      <td>{{book.product.name_product}}</td>
+                      <td><img src="{{book.product.image_main_product.url}}" width="70px" height="70px"></td>
+                      <td>{{book.amount}}</td>
+                      <td>{{book.import_price}}</td>
+                      <td>
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Thêm hàng
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu" >
+                           <li>Nhập thêm hàng</li>
+                          
+                          <li style="height:150px;overflow:auto">
+                          <form method="GET" action="/store/add/product">
+                          <input type="hidden" name="product_id" value="{{book.product.id}}"/>
+                          <div class="form-group">
+                            <label for="usr">Số lượng:</label>
+                            <input type="text" class="form-control" id="usr" name="amount">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd">Nhà cung cấp</label>
+                            <select name="supplier_id">
+                            {% for supplier in suppliers%}
+                            <option value={{supplier.id}}>{{supplier.name}}</option>
+                            {% endfor %}
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                          </form>
+                          
+                          </li>
+                          
+                          
+                        </ul>
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock %}
