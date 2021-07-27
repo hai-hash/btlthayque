@@ -81,10 +81,15 @@ WSGI_APPLICATION = 'shophai.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbe5jn1v5d5b9q',
+        'HOST': 'ec2-54-211-160-34.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'rcwbibvcrllkpa',
+        'PASSWORD': 'a283b62b379dcc5c1a12f0faf656602ae5cc85d219ffd40691ee9d4416c49574',
     }
 }
+
 
 
 # Password validation
